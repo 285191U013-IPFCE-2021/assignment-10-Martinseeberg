@@ -14,6 +14,16 @@ struct tree_node *getNewNode(int x)
   return newnode;
 }
 
+void inorder(struct tree_node *root)
+{
+  if (root != NULL)
+  {
+    inorder(root->left);
+    printf("%d ", root->item);
+    inorder(root->right);
+  }
+}
+
 struct tree_node *Insert(int x, struct tree_node *t)
 {
   // Checking if t==null.
@@ -43,49 +53,76 @@ struct tree_node *Insert(int x, struct tree_node *t)
 
   return NULL;
 }
+struct tree_node *minValueNode(struct tree_node *t)
+{
+  struct tree_node *current = t;
+  while (current && current->left != NULL)
+    current = current->left;
+  return current;
+}
 
 struct tree_node *Remove(int x, struct tree_node *t)
 {
-
-  // Remove one item from the tree t
-
-  return NULL;
+  // base case
+  if (t == NULL)
+    return t;
+  if (x < t->item)
+    t->left = Remove(x, t->left);
+  else if (x > t->item)
+    t->right = Remove(x, t->right);
+  else
+  {
+    if (t->left == NULL)
+    {
+      struct tree_node *newnode = t->right;
+      free(t);
+      return newnode;
+    }
+    else if (t->right == NULL)
+    {
+      struct tree_node *newnode = t->left;
+      free(t);
+      return newnode;
+    }
+    struct tree_node *newnode = minValueNode(t->right);
+    t->item = newnode->item;
+    t->right = Remove(newnode->item, t->right);
+  }
+  return t;
 }
 
 int Contains(int x, struct tree_node *t)
 {
-  if (t != 0)
-  {
-    {
-      if (x == t->item)
-        return true;
-    }
-    else if (x < t->item)
-    {
-      return contains(x, t->left)
-    }
-    else
-    {
-      return contains(x, t->right)
-    }
-    else return 0;
-  }
+  if (t == NULL || t->item == x)
+    return 1;
+  else if (x > t->item)
+    return Contains(x, t->right);
+  else
+    return Contains(x, t->left);
 }
+
 struct tree_node *Initialize(struct tree_node *t)
 {
-  struct *getnewnode;
-  getNewNode = (node *)malloc(sizeof(struct))
+  return t = NULL;
 }
 
 int Empty(struct tree_node *t)
 {
-
-  // Test if empty
-  return 0;
+  if (t == NULL)
+    return 1;
+  else
+    return 0;
 }
 
 int Full(struct tree_node *t)
 {
+  if (t == NULL)
+    return 1;
+  if (t->left == NULL && t->right == NULL)
+    return 1;
+  if ((t->left) && (t->right))
+    return (Full(t->left) && Full(t->right));
+  return 0;
   // Test if full
   return 0;
 }

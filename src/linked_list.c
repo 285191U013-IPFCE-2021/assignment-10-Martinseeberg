@@ -7,7 +7,6 @@
 #include <stdlib.h> /* malloc, free */
 #include <assert.h> /* assert */
 #include <math.h>   // to square
-#include "main.cpp"
 
 /* functions to create lists */
 node *make_node(int v, node *q)
