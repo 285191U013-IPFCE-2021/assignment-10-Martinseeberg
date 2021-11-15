@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-struct tree_node *getNewNode(int x)
+struct tree_node *getNewNode(int x) // Creating a newnode
 {
   struct tree_node *newnode = malloc(sizeof(struct tree_node));
   newnode->item = x;
@@ -14,7 +14,7 @@ struct tree_node *getNewNode(int x)
   return newnode;
 }
 
-void inorder(struct tree_node *root)
+void inorder(struct tree_node *root) // Not working i think the goal was to print.
 {
   if (root != NULL)
   {
@@ -26,7 +26,7 @@ void inorder(struct tree_node *root)
 
 struct tree_node *Insert(int x, struct tree_node *t)
 {
-  // Checking if t==null.
+  // Checking if t==null. If the list is empty
   if (t == NULL)
     return getNewNode(x);
   /*
@@ -53,7 +53,7 @@ struct tree_node *Insert(int x, struct tree_node *t)
 
   return NULL;
 }
-struct tree_node *minValueNode(struct tree_node *t)
+struct tree_node *minValueNode(struct tree_node *t) // Creating a new struct called current.
 {
   struct tree_node *current = t;
   while (current && current->left != NULL)
@@ -61,18 +61,24 @@ struct tree_node *minValueNode(struct tree_node *t)
   return current;
 }
 
-struct tree_node *Remove(int x, struct tree_node *t)
+struct tree_node *Remove(int x, struct tree_node *t) // Function for removing
 {
   // base case
   if (t == NULL)
     return t;
+
+  // If the key to be deleted is smaller than the root's key, then it lies in left subtree
   if (x < t->item)
     t->left = Remove(x, t->left);
+
+  // The same just for the right one.
   else if (x > t->item)
     t->right = Remove(x, t->right);
+
+  // If the key is the same as the roots key then the node will be deleted.
   else
   {
-    if (t->left == NULL)
+    if (t->left == NULL) // For ones with only 1 or no childs.
     {
       struct tree_node *newnode = t->right;
       free(t);
@@ -83,16 +89,20 @@ struct tree_node *Remove(int x, struct tree_node *t)
       struct tree_node *newnode = t->left;
       free(t);
       return newnode;
+
+      //Nodes with the two children gets the inorders
     }
     struct tree_node *newnode = minValueNode(t->right);
-    t->item = newnode->item;
-    t->right = Remove(newnode->item, t->right);
+    t->item = newnode->item;                    // Copy the inorders successors contont to this node.
+    t->right = Remove(newnode->item, t->right); // Delete the inorders successor.
   }
   return t;
 }
 
-int Contains(int x, struct tree_node *t)
+int Contains(int x, struct tree_node *t) // Search function
 {
+  if (t == NULL)
+    return 0;
   if (t == NULL || t->item == x)
     return 1;
   else if (x > t->item)
