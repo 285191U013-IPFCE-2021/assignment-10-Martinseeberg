@@ -36,20 +36,23 @@ void free_list(node *p)
 /* print list to console */
 void print_list(node *p)
 {
-  if (p->next == 0)
-    return; // Exit condition
+  if (p->next == NULL)
+    return; // Exit condition/ until the last element.
   else
-    printf("%d", p->value); // Prints first value of node
+    printf("%d", p->value); // Prints first value of node printing p's value/data until the last element
   print_list(p->next);      // Recursive call
 }
 
 int sum_squares(node *p)
 {
-  if (p == NULL) // Exit condition
+  int sum;
+  if (p == NULL) // Exit condition // i've changed the &SENTINELNODE because there was a problem we saw in the café, but i dont know how to fix the test case.
     return 0;
+  else if (p->next == NULL)
+    return square(p->value);
   else
-    return (pow(p->value, 2) + sum_squares(p->next)); // Recursive call
-  // Add your code for excercise 2
+    return (pow(p->value, 2) + sum_squares(p->next)); // Recursive call, taking the data of p, and sets it to the power of 2
+  // Add your code for excercise 2                    // And adding the new value of p on top of the sum squares.
   // You can find the tests in tests.cpp
 }
 
