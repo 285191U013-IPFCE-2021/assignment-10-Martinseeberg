@@ -39,7 +39,7 @@ struct tree_node *Insert(int x, struct tree_node *t)
      * if given x is smallar than t->item,
      * we should find the correct place in the left subtree and insert the new node
      */
-  else if (t->item > x)
+  else (t->item > x)
     t->left = Insert(x, t->left);
   /*
      * It will handle two cases
